@@ -123,6 +123,30 @@ def get_lat_lng():#获得地点的名称，纬度，经度，下标从0开始，
         print lng[i]
     '''
 
+def get_lat_lng_withoutdb():#获得地点的名称，纬度，经度，下标从0开始，减一
+    name.append("用户起点")
+    lat.append(start_lat)#起点的纬度
+    lng.append(start_lng)#起点的经度
+    for i in range(1,place_num+1):
+        name.append(sys.argv[i+4])
+        html = urllib2.urlopen(r'http://api.map.baidu.com/geocoder/v2/?address=' + name[i] + '&output=json&ak=oA4b8SDipmRn0j7FR57feU382NA6zGVQ&city=' + sys.argv[4])#sys.argv[4]为城市名
+        hjson = json.loads(html.read())
+        if hjson['status'] != 0:#如果错误，构造JSON返回并退出(这些错误主要是百度API搜索不到该城市中的地点http://lbsyun.baidu.com/index.php?title=webapi/guide/webservice-geocoding)
+            d1['status'] = hjson['status']
+            d1['msg'] = hjson['msg']
+            json_str = json.dumps(d1)
+            print json_str
+            sys.exit(1)
+        else:
+            lat.append(hjson['result']['location']['lat'])
+            lng.append(hjson['result']['location']['lng'])
+    '''
+    for i in range(0, place_num+1):
+        print name[i]
+        print lat[i]
+        print lng[i]
+    '''
+
 def initial_lists():#构造所有地点之间的路程N*N矩阵
     for i in range(0,place_num+1):
         for j in range(0,place_num+1):
@@ -213,7 +237,8 @@ def main():
         print json_str
         sys.exit(1)
     else:
-        get_lat_lng()
+        #get_lat_lng()
+        get_lat_lng_withoutdb()#不在数据库中先查询经纬度，方便测试
         initial_lists()
         if sys.argv[1] == '0':
             go_through_no_return()
