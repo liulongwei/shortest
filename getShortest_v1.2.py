@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-#Author:刘龙威-USTC-SSE
+#Author:刘龙威-SSE-USTC
 #最后修改时间：2016年12月18日15:13:36
 
 #本次更新内容：
