@@ -1,8 +1,41 @@
-
+/*************************************************************************
+ * 本模块属于业务逻辑模块，针对用户提交的数据，生成用户的行程计划
+ * 输入类型：json（函数调用的参数）
+ * 输入格式示例：
+    {
+        "function":"travelroute_submit",
+        "status":"null",
+        "data":{
+            //用户提交用以生成路线的信息存储在此，待完善
+            "city":"苏州",
+            "start":[116.403406,39.92455],
+            "scenic_spot":[
+                "拙政园",
+                "平江路",
+                "博物馆"
+            ],
+            "return":true/false
+        }
+    }
+ * 输出类型：json（函数的返回值）
+ * 返回格式示例：
+    { 
+        function: 'travelroute_feedback',
+        status: 'success',
+        data: { 
+            scenic_spot_ordered: [
+                "拙政园",
+                "平江路",
+                "博物馆"
+                ] 
+             } 
+    }
+ * 此模块算法由 刘龙威 实现，编写待定。
+ *************************************************************************/
 function generateRoute(user_input,callback){
     const eventproxy = require('eventproxy');
     var ep = new eventproxy();
-    var DB = require('./db');
+    var DB = require('../system/db');
 
     var address = user_input.data.scenic_spot;
     var city = user_input.data.city;

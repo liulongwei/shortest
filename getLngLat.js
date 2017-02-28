@@ -1,8 +1,5 @@
 
-function generateRoute(user_input,callback){
-    const eventproxy = require('eventproxy');
-    var ep = new eventproxy();
-    var DB = require('./db');
+function generateRoute(user_input){
 
     var address = user_input.data.scenic_spot;
     var city = user_input.data.city;
@@ -57,8 +54,8 @@ function generateRoute(user_input,callback){
                         else{
                             if(isNaN( Distance(lat[i], lng[i], lat[j], lng[j]) )){
                                 jsonRes["status"] = "duplicated scenic_spot";
-                                //console.log(jsonRes);
-                                //return jsonRes;
+                                console.log(jsonRes);
+                                return jsonRes;
                             }
                             else{
                                 lists[i][j] = (Distance(lat[i], lng[i], lat[j], lng[j]));                            
@@ -135,8 +132,8 @@ function generateRoute(user_input,callback){
                                 res.push( data[checkAllAns[i]-1][0] )
                             }
                             dataRes["scenic_spot_ordered"] = res;
-                            //console.log(jsonRes);
-                            //return jsonRes;
+                            console.log(jsonRes);
+                            return jsonRes;
                         }
                         checkAll(permutatedArray);
                     })                
@@ -175,13 +172,12 @@ function generateRoute(user_input,callback){
                             res.push( data[greedyAns[i]-1][0] )
                         }
                         dataRes["scenic_spot_ordered"] = res;
-                        //console.log(jsonRes);
-                        //return jsonRes;
+                        console.log(jsonRes);
+                        return jsonRes;
                     })
                 }
             })
         })
-    callback(jsonRes);
     })
 
     for(var i = 0; i < address.length; i++){
@@ -225,9 +221,8 @@ function generateRoute(user_input,callback){
                         }
                         else{
                             jsonRes["status"] = jsonData.status;
-                            //console.log(jsonRes);
-                            //return jsonRes;
-                            return;
+                            console.log(jsonRes);
+                            return jsonRes;
                         }           
                     })
                 }).on('error',function(e){
@@ -272,5 +267,3 @@ function generateRoute(user_input,callback){
 module.exports={
     generateRoute:generateRoute
 }
-
-
