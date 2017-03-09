@@ -26,7 +26,10 @@ function getLocalList (cityName,callback) {
 				var scenaryRes = {};
 				scenaryRes["scenaryname"] = item["scenaryname"];
 				scenaryRes["picture"] = item["picture"];
-				scenaryRes["description"] = item["description"];
+				scenaryRes["impression"] = item["impression"];
+				if(scenaryRes["description"] == null){
+					scenaryRes["impression"] = item["description"];
+				}
 				scenaryList.push(scenaryRes);
 			})
 			callback(jsonRes);
@@ -59,17 +62,19 @@ function getSpotDetail(cityName,scenaryName,callback){
 			callback(jsonRes);
 		}
 		else{
-			dataRes["scenaryname"] = rows[0]["scenaryname"];
-			dataRes["scenarycity"] = rows[0]["scenarycity"];
-			dataRes["keywords"] = rows[0]["keywords"];
-			dataRes["description"] = rows[0]["description"];
-			dataRes["ticket"] = rows[0]["ticket"];
-			dataRes["price"] = rows[0]["price"];
-			dataRes["opentime"] = rows[0]["opentime"];
-			dataRes["besttime"] = rows[0]["besttime"];
-			dataRes["ranking"] = rows[0]["ranking"];
-			dataRes["englishname"] = rows[0]["englishname"];
-			dataRes["picture"] = rows[0]["picture"];
+            dataRes["impression"] = impression;
+            dataRes["description"] = description;
+            dataRes["ranking"] = ranking;
+            dataRes["englishname"] = englishname;
+            dataRes["type"] = type;
+            dataRes["address"] = address;
+            dataRes["phone"] = phone;
+            dataRes["ticket"] = ticket;
+            dataRes["price"] = price;
+            dataRes["bestvisittime"] = bestvisittime;
+            dataRes["besttime"] = besttime;
+            dataRes["opentime"] = opentime;
+            dataRes["picture"] = picture;
 			callback(jsonRes);
 		}
 	})
