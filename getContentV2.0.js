@@ -198,16 +198,17 @@
                     dataRes["picture"] = picture;
 
                     callback(jsonRes);
-
-                    var connectionInsert=DB.Connect();
-                    var sqlInsert = 'Insert Into scenarydescription(scenaryname,scenarycity,type,englishname,ranking,impression,description,address,phone,ticket,price,bestvisittime,besttime,opentime,picture) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
-                    var sqlInsertParams = [placeName,placeCity,type,englishname,ranking,impression,description,address,phone,ticket,price,bestvisittime,besttime,opentime,picture];
-                    connectionInsert.query(sqlInsert,sqlInsertParams,function(err,result){
-                      if(err){
-                          console.log("sqlInsert Error:"+err.message);
-                        }
-                    })
-                    DB.Disconnect(connectionInsert);
+                    if(impression && description){//有空的则采集可能出错了，不入库
+                        var connectionInsert=DB.Connect();
+                        var sqlInsert = 'Insert Into scenarydescription(scenaryname,scenarycity,type,englishname,ranking,impression,description,address,phone,ticket,price,bestvisittime,besttime,opentime,picture) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+                        var sqlInsertParams = [placeName,placeCity,type,englishname,ranking,impression,description,address,phone,ticket,price,bestvisittime,besttime,opentime,picture];
+                        connectionInsert.query(sqlInsert,sqlInsertParams,function(err,result){
+                          if(err){
+                              console.log("sqlInsert Error:"+err.message);
+                            }
+                        })
+                        DB.Disconnect(connectionInsert);
+                    }
                 }
             )
         }
