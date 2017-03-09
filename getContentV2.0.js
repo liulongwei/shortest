@@ -60,6 +60,7 @@
                 function getBaiduHtml(callback){
                     var baiduName = transliteration.transliterate(placeName).toLowerCase().replace(/\s*/g,'');
                     var url = 'http://lvyou.baidu.com/' + baiduName;
+                    //var url = encodeURI('http://lvyou.baidu.com/search?word='+placeName);
                     http.get(url, function (response) {
                         var body = [];
                         response.on('data', function (chunk) {
@@ -80,7 +81,7 @@
 
                     var impressionHtml = baiduHtml.match(/impression:".*?",/g);//大家印象
                     var descriptionHtml = baiduHtml.match(/more_desc:".*?",/g);//景点简介
-                    var rankingHtml = baiduHtml.match(/<span class="star-10"><\/span><\/span>.*?<a class="remark-count"/g);
+                    var rankingHtml = baiduHtml.match(/<span class=".*?"><\/span><\/span>.*?<a class="remark-count"/g);
                     var englishnameHtml = baiduHtml.match(/<span class="deputy-name">.*?<\/a>/g);
                     var typeHtml = baiduHtml.match(/景点类型：.*?<\/span>/g);//景点类型
                     var addressHtml = baiduHtml.match(/address:".*?",/g);//地址
@@ -95,19 +96,19 @@
                     //console.log(impressionHtml);
 
                     if(impressionHtml){
-                        var impression = impressionHtml[impressionHtml.length-1].match(/impression:"(.*?)",/g)[0].replace(/impression:"|",/g,'');
+                        var impression = impressionHtml[impressionHtml.length-1].match(/impression:"(.*?)",/g)[0].replace(/impression:"|",/g,'').replace(/\\n/g," ");
                         impression = eval("'" + impression + "'")//unicode转中文
                     }
                     else var impression = null;
 
                     if(descriptionHtml){
-                        var description = descriptionHtml[descriptionHtml.length-1].match(/more_desc:"(.*?)",/g)[0].replace(/more_desc:"|",/g,'');
+                        var description = descriptionHtml[descriptionHtml.length-1].match(/more_desc:"(.*?)",/g)[0].replace(/more_desc:"|",/g,'').replace(/\\n/g," ");
                         description = eval("'" + description + "'")//unicode转中文
                     }
                     else var description = null;
 
                     if(rankingHtml){
-                        var ranking = rankingHtml[rankingHtml.length-1].match(/<span class="star-10"><\/span><\/span>(.*?)<a class="remark-count"/g)[0].replace(/<span class="star-10"><\/span><\/span>|<a class="remark-count"|分/g,'');
+                        var ranking = rankingHtml[rankingHtml.length-1].match(/<span class=".*?"><\/span><\/span>(.*?)<a class="remark-count"/g)[0].replace(/<span class=".*?"><\/span><\/span>|<a class="remark-count"|分/g,'');
                     }
                     else var ranking = null;
 
@@ -135,7 +136,7 @@
                     else var phone = null;
 
                     if(ticketHtml){
-                        var ticket = ticketHtml[ticketHtml.length-1].match(/'ticket_info',{text:"(.*?)"}/g)[0].replace(/'ticket_info',{text:"|"}/g,'');
+                        var ticket = ticketHtml[ticketHtml.length-1].match(/'ticket_info',{text:"(.*?)"}/g)[0].replace(/'ticket_info',{text:"|"}/g,'').replace(/\\n/g," ");
                         ticket = eval("'" + ticket + "'")//unicode转中文
                     }
                     else var ticket = null;
@@ -158,13 +159,13 @@
                     else var bestvisittime = null;
 
                     if(besttimeHtml){
-                        var besttime = besttimeHtml[besttimeHtml.length-1].match(/'besttime',{text:"(.*?)"}/g)[0].replace(/'besttime',{text:"|"}/g,'');
+                        var besttime = besttimeHtml[besttimeHtml.length-1].match(/'besttime',{text:"(.*?)"}/g)[0].replace(/'besttime',{text:"|"}/g,'').replace(/\\n/g," ");
                         besttime = eval("'" + besttime + "'")//unicode转中文
                     }
                     else var besttime = null;
 
                     if(opentimeHtml){
-                        var opentime = opentimeHtml[opentimeHtml.length-1].match(/'open_time_desc',{text:"(.*?)"}/g)[0].replace(/'open_time_desc',{text:"|"}/g,'');
+                        var opentime = opentimeHtml[opentimeHtml.length-1].match(/'open_time_desc',{text:"(.*?)"}/g)[0].replace(/'open_time_desc',{text:"|"}/g,'').replace(/\\n/g," ");
                         opentime = eval("'" + opentime + "'")//unicode转中文
                     }
                     else var opentime = null;
@@ -182,6 +183,8 @@
                     else var picture = null;
 
                     //console.log(price);
+                    dataRes["city"] = placeCity;
+                    dataRes["name"] = placeName;
 
                     dataRes["impression"] = impression;
                     dataRes["description"] = description;
@@ -198,7 +201,8 @@
                     dataRes["picture"] = picture;
 
                     callback(jsonRes);
-                    if(impression && description){//有空的则采集可能出错了，不入库
+
+                    if(impression != null && description != null){//都为空则采集可能出错了，不入库
                         var connectionInsert=DB.Connect();
                         var sqlInsert = 'Insert Into scenarydescription(scenaryname,scenarycity,type,englishname,ranking,impression,description,address,phone,ticket,price,bestvisittime,besttime,opentime,picture) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
                         var sqlInsertParams = [placeName,placeCity,type,englishname,ranking,impression,description,address,phone,ticket,price,bestvisittime,besttime,opentime,picture];
