@@ -27,6 +27,9 @@ function getLocalList (cityName,callback) {
 				scenaryRes["scenaryname"] = item["scenaryname"];
 				scenaryRes["picture"] = item["picture"];
 				scenaryRes["impression"] = item["impression"];
+				if(scenaryRes["description"] == null){
+					scenaryRes["impression"] = item["description"];
+				}
 				scenaryList.push(scenaryRes);
 			})
 			callback(jsonRes);
@@ -59,20 +62,20 @@ function getSpotDetail(cityName,scenaryName,callback){
 			callback(jsonRes);
 		}
 		else{
-		    dataRes["impression"] = rows[0]["impression"];
-		    dataRes["description"] = rows[0]["description"];
-		    dataRes["ranking"] = rows[0]["ranking"];
-		    dataRes["englishname"] = rows[0]["englishname"];
-		    dataRes["type"] = rows[0]["type"];
-		    dataRes["address"] = rows[0]["address"];
-		    dataRes["phone"] = rows[0]["phone"];
-		    dataRes["ticket"] = rows[0]["ticket"];
-		    dataRes["price"] = rows[0]["price"];
-		    dataRes["bestvisittime"] = rows[0]["bestvisittime"];
-		    dataRes["besttime"] = rows[0]["besttime"];
-		    dataRes["opentime"] = rows[0]["opentime"];
-		    dataRes["picture"] = rows[0]["picture"];
-		    callback(jsonRes);
+            dataRes["impression"] = impression;
+            dataRes["description"] = description;
+            dataRes["ranking"] = ranking;
+            dataRes["englishname"] = englishname;
+            dataRes["type"] = type;
+            dataRes["address"] = address;
+            dataRes["phone"] = phone;
+            dataRes["ticket"] = ticket;
+            dataRes["price"] = price;
+            dataRes["bestvisittime"] = bestvisittime;
+            dataRes["besttime"] = besttime;
+            dataRes["opentime"] = opentime;
+            dataRes["picture"] = picture;
+			callback(jsonRes);
 		}
 	})
 	DB.Disconnect(connection);
