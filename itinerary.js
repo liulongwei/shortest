@@ -30,7 +30,7 @@
                 ] 
              } 
     }
- * 此模块算法由 刘龙威 实现，编写待定。
+ * 此模块算法由 刘龙威 实现，编写待定。 
  *************************************************************************/
 function generateRoute(user_input,callback){
     const eventproxy = require('eventproxy');
