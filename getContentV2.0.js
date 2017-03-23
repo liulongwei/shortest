@@ -30,7 +30,7 @@
      opentime: '1. 旺季（4月1日~10月31日）：08:30~17:00\n停止售票时间：16:00\n停止入场时间：16:10\n2. 淡季（11月1日~3月31日）：08:30~16:30\n停止售票时间：15:30\n停止入场时间：15:40\nTips：除法定节假日和暑期（7月1日~8月31日）外，故宫博物院全年实行周一下午闭馆的措施。每周一开馆时间为08:30~12:00，停止售票时间为11:00，停止检票时间为11:10，闭馆时间为12:00。\n',
      picture: 'http://gss0.baidu.com/7LsWdDW5_xN3otqbppnN2DJv/lvpics/pic/item/e824b899a9014c08705e1d3e0a7b02087af4f4c7.jpg http://gss0.baidu.com/7LsWdDW5_xN3otqbppnN2DJv/lvpics/pic/item/f2deb48f8c5494ee56f1d4b82df5e0fe98257e44.jpg http://gss0.baidu.com/7LsWdDW5_xN3otqbppnN2DJv/lvpics/pic/item/38dbb6fd5266d016e6db4589972bd40734fa3555.jpg http://gss0.baidu.com/7LsWdDW5_xN3otqbppnN2DJv/lvpics/pic/item/cf1b9d16fdfaaf5151305a1e8c5494eef11f7a44.jpg ' } }
     //数据库不能存放数组，以字符串存放(空格分割数据)
- * 此模块算法由 刘龙威 实现，编写待定。
+ * 此模块算法由 刘龙威 实现，编写待定。 
  *************************************************************************/
 
  function getContent(user_input,callback){

@@ -15,21 +15,6 @@ var names = ["故宫","颐和园","八达岭长城","天安门","后海","天坛
 // var city = "上海";
 // var names = ["外滩","东方明珠","老城隍庙","南京路","田子坊","朱家角","上海科技馆","崇明岛","豫园","泰晤士小镇","上海野生动物园","七宝老街","上海欢乐谷","上海海洋水族馆","上海杜莎夫人蜡像馆","上海动物园","金茂大厦","徐家汇天主教堂","上海博物馆","世纪公园","共青森林公园","新天地","环球金融中心","上海人民广场","静安寺","上海植物园","中共一大会址","鲁迅公园","陆家嘴"];
 
-// for(var i = 0; i < name.length; i++){
-// 	var json = {}
-// 	json["function"] = "getContent_submit";
-// 	json["status"] = null;
-// 	var data = {};
-// 	data["city"] = city;
-// 	data["name"] = name[i];
-// 	data["return"] = true;
-// 	json["data"] = data;
-// 	getContent.getContent(json,function(data){
-// 		console.log(data);
-// 	})
-// }
-
-
 names.forEach(function(name){
 	var json = {}
 	json["function"] = "getContent_submit";
