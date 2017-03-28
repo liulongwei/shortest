@@ -35,7 +35,7 @@ function getLocalList (cityName,callback) {
 			callback(jsonRes);
 		}
 	})
-	DB.Disconnect(connection);
+	DB.Disconnect(connection); 
 }
 
 // getLocalList("北京",function(data){
