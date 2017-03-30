@@ -18,8 +18,7 @@
 	    "data":{
             "message":"",
             "userid":"1",
-    		"username":"sgz",
-            "password":"123456",
+    	    "username":"sgz",
             "email":"123456@163.com",
             "sex":"M",
             "telephone":"13812345678"
