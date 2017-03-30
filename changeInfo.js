@@ -9,7 +9,7 @@ var DB = require('./db');
     "function":"userinfo_alterpsw_submit",
     "status":"null",
     "data":{
-    	"userid":"1",
+    	"email":"user1@163.com",
         "oldpsw":"sgz",
         "newpsw":"sgz001"
     }
@@ -26,7 +26,7 @@ var DB = require('./db');
  * 此模块算法由 刘龙威 实现，编写待定。
  *************************************************************************/
 function alterpsw(user_input,callback){
-	var userid = user_input.data.userid;
+	var email = user_input.data.email;
 	var oldpsw = user_input.data.oldpsw;
 	var newpsw = user_input.data.newpsw;
 
@@ -38,8 +38,8 @@ function alterpsw(user_input,callback){
 	dataRes["message"] = "修改密码成功";
 
 	var connection=DB.Connect();
-    var sqlQuery = 'select * from user where userid = ?';
-    var sqlQueryParams = [userid];
+    var sqlQuery = 'select * from user where email = ?';
+    var sqlQueryParams = [email];
     connection.query(sqlQuery,sqlQueryParams,function(err,rows,fields){
         if(err){
             console.log("Mysql Error:"+err.message);
@@ -48,7 +48,7 @@ function alterpsw(user_input,callback){
         }
         else if(rows[0] == null){
             jsonRes["status"] = "failed";
-            dataRes["message"] = "数据库无此userid";
+            dataRes["message"] = "数据库无此email";
         }
         else{
             if(encrypt.hex_md5(oldpsw) != rows[0]["password"]){
@@ -57,8 +57,8 @@ function alterpsw(user_input,callback){
             }
             else{
 	            var connectionUpdate=DB.Connect();
-	            var sqlUpdate = 'update user set password = ? where userid = ?';
-	            var sqlUpdateParams = [encrypt.hex_md5(newpsw),userid];
+	            var sqlUpdate = 'update user set password = ? where email = ?';
+	            var sqlUpdateParams = [encrypt.hex_md5(newpsw),email];
 	            connectionUpdate.query(sqlUpdate,sqlUpdateParams,function(err,result){
 	              if(err){
 	                  console.log("sqlUpdate Error:"+err.message);
@@ -82,7 +82,6 @@ function alterpsw(user_input,callback){
     "function":"userinfo_alter_submit",
     "status":"null",
     "data":{
-    	"userid" = "1"
         "username":"sgz",
         "email":"vincentsheng@126.com",
         "sex":"m",
@@ -104,7 +103,6 @@ function alterpsw(user_input,callback){
  * 此模块算法由 刘龙威 实现，编写待定。
  *************************************************************************/
 function  alteruserinfo(user_input,callback){
-	var userid = user_input.data.userid;
 	var username = user_input.data.username;
 	var email = user_input.data.email;
 	var sex = user_input.data.sex;
@@ -121,8 +119,8 @@ function  alteruserinfo(user_input,callback){
 	dataRes["message"] = "修改资料成功";
 
 	var connection=DB.Connect();
-    var sqlQuery = 'select * from user where userid = ?';
-    var sqlQueryParams = [userid];
+    var sqlQuery = 'select * from user where email = ?';
+    var sqlQueryParams = [email];
     connection.query(sqlQuery,sqlQueryParams,function(err,rows,fields){
         if(err){
             console.log("Mysql Error:"+err.message);
@@ -132,23 +130,23 @@ function  alteruserinfo(user_input,callback){
         }
         else if(rows[0] == null){
             jsonRes["status"] = "failed";
-            dataRes["message"] = "数据库无此userid";
+            dataRes["message"] = "数据库无此email";
             callback(jsonRes);
         }
         else{
     		var connection1=DB.Connect();
-		    var sqlQuery1 = 'select * from user where username = ?';
-		    var sqlQueryParams1 = [username];
+		    var sqlQuery1 = 'select * from user where email = ?';
+		    var sqlQueryParams1 = [email];
 		    connection1.query(sqlQuery1,sqlQueryParams1,function(err,rows1,fields){
     	        if(err){
 		            console.log("Mysql Error:"+err.message);
 		            jsonRes["status"] = "failed";
 		            dataRes["message"] = "数据库错误"+err.message;
 		        }
-                else if(rows1[0] == null || rows1[0]["userid"] == rows[0]["userid"]){
+                else {
 		            var connectionUpdate=DB.Connect();
-		            var sqlUpdate = 'update user set username = ?, email = ?, sex = ?, telephone = ?, age = ?, city = ?, address = ? where userid = ?';
-		            var sqlUpdateParams = [username,email,sex,telephone,age,city,address,userid];
+		            var sqlUpdate = 'update user set username = ?, sex = ?, telephone = ?, age = ?, city = ?, address = ? where email = ?';
+		            var sqlUpdateParams = [username,sex,telephone,age,city,address,email];
 		            connectionUpdate.query(sqlUpdate,sqlUpdateParams,function(err,result){
 		              if(err){
 		                  console.log("sqlUpdate Error:"+err.message);
@@ -157,10 +155,6 @@ function  alteruserinfo(user_input,callback){
 		                }
 		            })
 		            DB.Disconnect(connectionUpdate);
-				}
-				else if(rows1[0]["userid"] != rows[0]["userid"]){
-				    jsonRes["status"] = "failed";
-				    dataRes["message"] = "用户名"+username+"已被他人使用，请更换！";
 				}
 			    callback(jsonRes);
 			})
