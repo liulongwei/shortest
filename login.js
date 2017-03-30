@@ -18,8 +18,7 @@
 	    "data":{
             "message":"",
             "userid":"1",
-    		"username":"sgz",
-            "password":"123456",
+    	    "username":"sgz",
             "email":"123456@163.com",
             "sex":"M",
             "telephone":"13812345678"
@@ -74,6 +73,7 @@
                 dataRes["age"] = rows[0]["age"];
                 dataRes["city"] = rows[0]["city"];
                 dataRes["address"] = rows[0]["address"];
+		req["session"]["email"] = rows[0]["email"];//此处加上会报错，需与前台联合调试才正常
                 callback(jsonRes);
             }
         }
